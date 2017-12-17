@@ -32,7 +32,12 @@ class WebhookServer(object):
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def echo_message(message):
-    bot.reply_to(message, message.text)
+
+    if message[-1] != '?':
+        bot.send_message(message, "Hold on, Tiger. You need to ask a question first\n 2nd line")
+        bot.send_message(message, "Third line")
+    else:
+        bot.reply_to(message, message.text)
 
 
 bot.remove_webhook()

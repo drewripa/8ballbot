@@ -29,7 +29,7 @@ def hints(counter, message):
         5: str(message.text).join("?\nSee? So simple. Just '?' at the end.\nYou are welcome")
     }
     counter += 1
-    return counter, message
+    return counter, whydoespythonhavenoswitchcase.get(counter-1)
 
 class WebhookServer(object):
     @cherrypy.expose

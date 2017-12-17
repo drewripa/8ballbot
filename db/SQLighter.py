@@ -20,7 +20,7 @@ class SQLighter:
     def write_userdata(self, userid, counter, yes, no, mb):
         with self.connection:
             self.cursor.execute('UPDATE users '
-                                'SET retrycounter = ?, stats_yes = ?, stats_no = ?, stats_mb = ? '
+                                'SET rertycounter = ?, stats_yes = ?, stats_no = ?, stats_mb = ? '
                                 'WHERE userid = ?', (counter, yes, no, mb, userid)).fetchall()
 
     def close(self):

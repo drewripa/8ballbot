@@ -15,6 +15,22 @@ WEBHOOK_URL_PATH = "/%s/" % (config.token)
 
 bot = telebot.TeleBot(config.token)
 
+#Counter for wrong retries
+RETRY_COUNTER = 0
+
+#If user do not understand hints for several times just repeat them for a few times
+def hints(counter, message):
+    whydoespythonhavenoswitchcase = {
+        0: "Hold on, Tiger. You need to ask a question first.",
+        1: "Ok, I've got it. You are persistent. Try again.",
+        2: "We can play it all day. Be sure.",
+        3: "If you want you could ask me to do this work for you.",
+        4: "Last warning. No jokes.",
+        5: str(message.text).join("?\nSee? So simple. Just '?' at the end.\nYou are welcome")
+    }
+    counter += 1
+    return counter, message
+
 class WebhookServer(object):
     @cherrypy.expose
     def index(self):
@@ -32,10 +48,11 @@ class WebhookServer(object):
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def echo_message(message):
-
+    global RETRY_COUNTER
     if message.text[-1] != '?':
-        bot.send_message(message.chat.id, "Hold on, Tiger. You need to ask a question first\n 2nd line")
-        bot.send_message(message.chat.id, "Third line")
+        bot.send_message(message.chat.id, hints(RETRY_COUNTER,message)[1])
+
+        RETRY_COUNTER = hints(RETRY_COUNTER,message)[0]
     else:
         bot.reply_to(message, message.text)
 

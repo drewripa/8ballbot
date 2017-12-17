@@ -35,7 +35,7 @@ def echo_message(message):
 
     if message.text[-1] != '?':
         bot.send_message(message.chat.id, "Hold on, Tiger. You need to ask a question first\n 2nd line")
-        bot.send_message(message, "Third line")
+        bot.send_message(message.chat.id, "Third line")
     else:
         bot.reply_to(message, message.text)
 

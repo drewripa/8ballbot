@@ -58,7 +58,7 @@ def echo_message(update):
     #    dbconn.user_init(message[2][0])
     #bot.send_message(message.chat.id, dbdata)
 
-    if update.message.text[-1] != '?':
+    if update.text[-1] != '?':
         bot.send_message(update.message.chat.id, str(update.user.id))
     else:
         bot.reply_to(update.message, update.message.text)

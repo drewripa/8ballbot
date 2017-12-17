@@ -48,7 +48,7 @@ class WebhookServer(object):
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
-def echo_message(message):
+def echo_message(update):
 
     #dbconn = SQLighter()
 
@@ -57,12 +57,10 @@ def echo_message(message):
     #    dbconn.user_init(message[2][0])
     #bot.send_message(message.chat.id, dbdata)
 
-
-
-    if message.text[-1] != '?':
-        bot.send_message(message.chat.id, message.get('from_user').get('id'))
+    if update.message.text[-1] != '?':
+        bot.send_message(update.message.chat.id, str(update.message.from_user.id))
     else:
-        bot.reply_to(message, message.text)
+        bot.reply_to(update.message, update.message.text)
 
 
 bot.remove_webhook()

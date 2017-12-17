@@ -26,7 +26,7 @@ def hints(counter, message):
         2: "We can play it all day. Be sure.",
         3: "If you want you could ask me to do this work for you.",
         4: "Last warning. No jokes.",
-        5: str(message.text).join("?\nSee? So simple. Just '?' at the end.\nYou are welcome")
+        5: str(message.text) + ("?\nSee? So simple. Just '?' at the end.\nYou are welcome")
     }
     counter += 1
     return counter, whydoespythonhavenoswitchcase.get(counter-1)

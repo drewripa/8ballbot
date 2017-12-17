@@ -2,6 +2,7 @@ import telebot
 import cherrypy
 import config
 
+
 from db.SQLighter import SQLighter
 
 WEBHOOK_HOST = config.host
@@ -58,7 +59,7 @@ def echo_message(update):
     #bot.send_message(message.chat.id, dbdata)
 
     if update.message.text[-1] != '?':
-        bot.send_message(update.message.chat.id, str(update.message.from_user.id))
+        bot.send_message(update.message.chat.id, str(update.user.id))
     else:
         bot.reply_to(update.message, update.message.text)
 

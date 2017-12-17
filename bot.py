@@ -59,7 +59,7 @@ def echo_message(message):
     #bot.send_message(message.chat.id, dbdata)
 
     if message.text[-1] != '?':
-        bot.send_message(message.chat.id, str(message.from_user))
+        bot.send_message(message.chat.id, str(message.from_user.id))
     else:
         bot.reply_to(message, message.text)
 

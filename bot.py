@@ -64,7 +64,7 @@ def echo_message(message):
         dbconn.user_init(message.from_user.id)
     if message.text[-1] != '?':
         bot.send_message(message.chat.id, hints(counter, message)[1])
-        dbconn.write_userdata(message.from_user.id, hints(counter, message)[0])
+        dbconn.write_userdata(message.from_user.id, hints(counter, message)[0], yes, no, mb)
 
 
     else:

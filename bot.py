@@ -78,6 +78,7 @@ def echo_message(message):
         dbconn.write_userdata(message.from_user.id, hints(counter, message)[0], yes, no, mb)
     else:
         magic = random.randint(0,20)
+        bot.send_message(message.chat.id, magic)
         bot.send_message(message.chat.id, decisions[magic])
         if magic < 10:
             yes+=1

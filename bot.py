@@ -1,7 +1,7 @@
 import telebot
 import cherrypy
 import config
-
+import random
 
 from db.SQLighter import SQLighter
 
@@ -17,8 +17,16 @@ WEBHOOK_URL_PATH = "/%s/" % (config.token)
 
 bot = telebot.TeleBot(config.token)
 
-#Counter for wrong retries
-RETRY_COUNTER = 0
+decisions = [ "It is certain", "It is decidedly so",
+                  "Without a doubt", "Yes definitely",
+                  "You may rely on it", "As I see it, yes",
+                  "Most likely", "Outlook good",
+                  "Yes", "Signs point to yes",
+                  "Reply hazy try again", "Ask again later",
+                  "Better not tell you now", "Cannot predict now",
+                  "Concentrate and ask again", "Don\'t count on it",
+                  "My reply is no", "My sources say no",
+                  "Outlook not so good", "Very doubtful" ]
 
 #If user do not understand hints for several times just repeat them for a few times
 def hints(counter, message):
@@ -32,6 +40,7 @@ def hints(counter, message):
     }
     counter += 1
     return counter, whydoespythonhavenoswitchcase.get(counter-1)
+
 
 class WebhookServer(object):
     @cherrypy.expose
@@ -64,14 +73,18 @@ def echo_message(message):
     no = dbdata[0][3]
     mb = dbdata[0][4]
 
-    if message.text[-1] != '?':
+    if message.text[-1] != '?' and counter < 6:
         bot.send_message(message.chat.id, hints(counter, message)[1])
         dbconn.write_userdata(message.from_user.id, hints(counter, message)[0], yes, no, mb)
-
-
     else:
-        bot.reply_to(message, message.text)
-        #TODO Dont forget to remove
+        magic = random.randint(0,20)
+        bot.send_message(message.chat.id, decisions[magic])
+        if magic < 10:
+            yes+=1
+        elif magic < 15:
+            mb+=1
+        else:
+            no+=1
         dbconn.write_userdata(message.from_user.id, 0, yes, no, mb)
 
 

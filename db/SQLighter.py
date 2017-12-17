@@ -15,7 +15,7 @@ class SQLighter:
 
     def select_userdata(self, userid):
         with self.connection:
-            return self.cursor.execute('SELECT * FROM users WHERE userid = ?', (userid,)).fetchall()[0]
+            return self.cursor.execute('SELECT * FROM users WHERE userid = ?', (userid,)).fetchall()
 
     def write_userdata(self, userid, counter, yes, no, mb):
         with self.connection:

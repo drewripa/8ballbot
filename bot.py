@@ -55,11 +55,17 @@ def echo_message(message):
 
     dbdata = dbconn.select_userdata(message.from_user.id)
 
+    counter = dbdata[0][1]
+    yes = dbdata[0][2]
+    no = dbdata[0][3]
+    mb = dbdata[0][4]
+
     if len(dbdata) == 0:
         dbconn.user_init(message.from_user.id)
     if message.text[-1] != '?':
         bot.send_message(message.chat.id, str(message.from_user.id))
         bot.send_message(message.chat.id, str(dbdata))
+        bot.send_message(message.chat.id, counter)
     else:
         bot.reply_to(message, message.text)
 

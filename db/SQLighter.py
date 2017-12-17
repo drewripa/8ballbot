@@ -17,18 +17,6 @@ class SQLighter:
         with self.connection:
             return self.cursor.execute('SELECT * FROM users WHERE userid = ?', (userid,)).fetchall()
 
-    def write_userdata(self, userid, counter):
-        with self.connection:
-            self.cursor.execute('UPDATE users '
-                                'SET retrycounter = ?'
-                                'WHERE userid = ?', (counter, userid)).fetchall()
-
-    def write_userdata(self, userid, yes, no, mb):
-        with self.connection:
-            self.cursor.execute('UPDATE users '
-                                'SET retrycounter = 0, stats_yes = ?, stats_no = ?, stats_mb = ? '
-                                'WHERE userid = ?', (yes, no, mb, userid)).fetchall()
-
     def write_userdata(self, userid, counter, yes, no, mb):
         with self.connection:
             self.cursor.execute('UPDATE users '

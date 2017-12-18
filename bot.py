@@ -56,12 +56,29 @@ class WebhookServer(object):
         else:
             raise cherrypy.HTTPError(403)
 
+@bot.message_handler(commands=['stats'])
+def stats_message(message):
+    dbconn = SQLighter()
+    dbdata = dbconn.select_userdata(message.from_user.id)
+
+    if len(dbdata) == 0:
+        dbconn.user_init(message.from_user.id)
+        dbdata = dbconn.select_userdata(message.from_user.id)
+
+    yes = dbdata[0][2]
+    no = dbdata[0][3]
+    mb = dbdata[0][4]
+
+    bot.send_message(message.chat.id,
+                     ("Statistic:\n'Yes' ? times\n'No' ? times\n'Maybe' ? times ",(yes, no, mb)))
+
+    dbconn.close()
+
+
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def echo_message(message):
-
     dbconn = SQLighter()
-
     dbdata = dbconn.select_userdata(message.from_user.id)
 
     if len(dbdata) == 0:
@@ -87,6 +104,8 @@ def echo_message(message):
         else:
             no+=1
         dbconn.write_userdata(message.from_user.id, 0, yes, no, mb)
+
+    dbconn.close()
 
 
 bot.remove_webhook()

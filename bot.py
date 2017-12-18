@@ -70,7 +70,7 @@ def stats_message(message):
     mb = dbdata[0][4]
 
     bot.send_message(message.chat.id,
-                     ("Statistic:\n'Yes' ? times\n'No' ? times\n'Maybe' ? times ",(yes, no, mb)))
+                     "Statistic:\n'Yes' %s times\n'No' %s times\n'Maybe' %s times " % (yes, no, mb))
 
     dbconn.close()
 

@@ -112,16 +112,17 @@ def echo_message(message):
     no = dbdata[0][3]
     mb = dbdata[0][4]
 
-    if message.text[-1] != '?' and counter < 5:
-        bot.send_message(message.chat.id, hints(counter, message)[1])
-        counter = hints(counter, message)[0]
-    elif counter == 5:
-        bot.send_message(message.chat.id, hints(counter, message)[1])
-        counter = 0
-        magicres = magic(message, yes, no, mb)
-        yes = magicres[0]
-        no = magicres[1]
-        mb = magicres[2]
+    if message.text[-1] != '?' 
+        if counter < 5:
+            bot.send_message(message.chat.id, hints(counter, message)[1])
+            counter = hints(counter, message)[0]
+        elif counter ==5:
+            bot.send_message(message.chat.id, hints(counter, message)[1])
+            counter = 0
+            magicres = magic(message, yes, no, mb)
+            yes = magicres[0]
+            no = magicres[1]
+            mb = magicres[2]
     else:
         counter = 0
         magicres = magic(message, yes, no, mb)

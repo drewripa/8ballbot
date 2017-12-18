@@ -43,7 +43,7 @@ def hints(counter, message):
 
 def magic(message, yes, no, mb):
     magic = random.randint(0, 19)
-    bot.send_message(message.chat.id, "\xF0\x9F\x8E\xB1 decision is:")
+    bot.send_message(message.chat.id, "\U0001F3B1 decision is:")
     bot.send_message(message.chat.id, decisions[magic])
     if magic < 10:
         yes += 1

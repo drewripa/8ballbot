@@ -41,6 +41,18 @@ def hints(counter, message):
     counter += 1
     return counter, whydoespythonhavenoswitchcase.get(counter-1)
 
+def magic(message, yes, no, mb):
+    magic = random.randint(0, 19)
+    bot.send_message(message.chat.id, "\xF0\x9F\x8E\xB1 decision is:")
+    bot.send_message(message.chat.id, decisions[magic])
+    if magic < 10:
+        yes += 1
+    elif magic < 15:
+        mb += 1
+    else:
+        no += 1
+    return yes, no, mb
+
 
 class WebhookServer(object):
     @cherrypy.expose
@@ -70,9 +82,14 @@ def stats_message(message):
     mb = dbdata[0][4]
 
     bot.send_message(message.chat.id,
-                     "Statistic:\n'Yes' %s times\n'No' %s times\n'Maybe' %s times " % (yes, no, mb))
+                     "Stats:\n'Yes' %s times\n'No' %s times\n'Maybe' %s times " % (yes, no, mb))
 
     dbconn.close()
+
+@bot.message_handler(commands=['usersstats'])
+def userstats_message(message):
+    dbconn = SQLighter()
+    bot.send_message(message.chat.id, "\xF0\x9F\x8E\x89 Congratulations!\nYou are one of %s users of this bot" % (len(dbconn.users_count()))
 
 
 
@@ -90,20 +107,23 @@ def echo_message(message):
     no = dbdata[0][3]
     mb = dbdata[0][4]
 
-    if message.text[-1] != '?' and counter < 6:
+    if message.text[-1] != '?' and counter < 5:
         bot.send_message(message.chat.id, hints(counter, message)[1])
-        dbconn.write_userdata(message.from_user.id, hints(counter, message)[0], yes, no, mb)
+    elif counter == 5:
+        bot.send_message(message.chat.id, hints(counter, message)[1])
+        counter = 0
+        magicres = magic(message, yes, no, mb)
+        yes = magicres[0]
+        no = magicres[1]
+        mb = magicres[2]
     else:
-        magic = random.randint(0,19)
-        bot.send_message(message.chat.id, magic)
-        bot.send_message(message.chat.id, decisions[magic])
-        if magic < 10:
-            yes+=1
-        elif magic < 15:
-            mb+=1
-        else:
-            no+=1
-        dbconn.write_userdata(message.from_user.id, 0, yes, no, mb)
+        counter = 0
+        magicres = magic(message, yes, no, mb)
+        yes = magicres[0]
+        no = magicres[1]
+        mb = magicres[2]
+
+    dbconn.write_userdata(message.from_user.id, counter, yes, no, mb)
 
     dbconn.close()
 

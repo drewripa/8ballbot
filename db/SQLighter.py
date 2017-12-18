@@ -13,6 +13,10 @@ class SQLighter:
         with self.connection:
             self.cursor.execute('INSERT INTO users VALUES (?, 0, 0, 0, 0)', (userid,))
 
+    def users_count(self):
+        with self.connection:
+            self.cursor.execute('SELECT * FROM users')
+
     def select_userdata(self, userid):
         with self.connection:
             return self.cursor.execute('SELECT * FROM users WHERE userid = ?', (userid,)).fetchall()

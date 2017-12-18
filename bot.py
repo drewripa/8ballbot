@@ -112,6 +112,7 @@ def echo_message(message):
 
     if message.text[-1] != '?' and counter < 5:
         bot.send_message(message.chat.id, hints(counter, message)[1])
+        counter = hints(counter, message)[0]
     elif counter == 5:
         bot.send_message(message.chat.id, hints(counter, message)[1])
         counter = 0

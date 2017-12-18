@@ -2,6 +2,7 @@ import telebot
 import cherrypy
 import config
 import random
+import os.path
 
 from db.SQLighter import SQLighter
 
@@ -9,8 +10,9 @@ WEBHOOK_HOST = config.host
 WEBHOOK_PORT = 443
 WEBHOOK_LISTEN = '0.0.0.0'  # На некоторых серверах придется указывать такой же IP, что и выше
 
-WEBHOOK_SSL_CERT = './crt/webhook_cert.pem'  # Путь к сертификату
-WEBHOOK_SSL_PRIV = './crt/webhook_pkey.pem'  # Путь к приватному ключу
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+WEBHOOK_SSL_CERT = os.path.join(BASE_DIR, "crt/webhook_cert.pem")
+WEBHOOK_SSL_PRIV = os.path.join(BASE_DIR, "crt/webhook_pkey.pem")
 
 WEBHOOK_URL_BASE = "https://%s:%s" % (WEBHOOK_HOST, WEBHOOK_PORT)
 WEBHOOK_URL_PATH = "/%s/" % (config.token)

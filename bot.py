@@ -89,7 +89,8 @@ def stats_message(message):
 @bot.message_handler(commands=['usersstats'])
 def userstats_message(message):
     dbconn = SQLighter()
-    bot.send_message(message.chat.id, "\xF0\x9F\x8E\x89 Congratulations!\nYou are one of %s users of this bot" % (len(dbconn.users_count())))
+    bot.send_message(message.chat.id, "\xF0\x9F\x8E\x89 Congratulations!\n"
+                                      "You are one of %s users of this bot" % (dbconn.users_count()))
 
     dbconn.close()
 

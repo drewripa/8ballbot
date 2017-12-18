@@ -15,7 +15,7 @@ class SQLighter:
 
     def users_count(self):
         with self.connection:
-            self.cursor.execute('SELECT * FROM users')
+            return len(self.cursor.execute('SELECT * FROM users').fetchall())
 
     def select_userdata(self, userid):
         with self.connection:
